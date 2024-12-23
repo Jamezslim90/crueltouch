@@ -19,9 +19,9 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
-admin.site.site_header = 'CruelTouch Administration'
-admin.site.site_title = 'CruelTouch Administration'
-admin.site.index_title = 'Roos Laurore | Owner | Administration Staff'
+admin.site.site_header = 'Maxify Administration'
+admin.site.site_title = 'Maxify Administration'
+admin.site.index_title = 'James Inaz | Owner | Administration Staff'
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),

@@ -4,21 +4,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% trans "Welcome to Tchiiz Studio" %}{% endblock %}</title>
+    <title>{% block title %}{% trans "Welcome to Maxify Global" %}{% endblock %}</title>
     <meta name="description" content="{% block description %}Crueltouch Website{% endblock %}">
-    <meta name="keywords"
-          content="photographer, crueltouch, contact crueltouch, roos laurore, tchiiz, tchiiz studio, tchiiz photography">
+    <meta name="keywords" content="photographer, Maxify, contact crueltouch, roos laurore, tchiiz, tchiiz studio, tchiiz photography">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://tchiiz.com{% block canonical %}/{% endblock %}">
+    <link rel="canonical" href="https://maxifyglobal.com{% block canonical %}/{% endblock %}">
 
     <!-- Favicon -->
-    <link href="{% static 'homepage/img/icon/android-icon-48x48.png' %}" rel="shortcut icon"/>
+    <link href="{% static 'homepage/favicon.ico' %}" rel="shortcut icon"/>
 
     <!-- Stylesheets -->
     <!-- Establish network connection -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     {% block homepageCSS %}
@@ -71,9 +69,9 @@
 
 <!-- Header section  -->
 <header class="header-section">
-    <a href="{% url 'homepage:index' %}" class="site-logo">
+    <a href="{% url 'homepage:services_offered' %}" class="site-logo">
         {% block logoImg %}
-            <img src="{% static 'homepage/img/logos/logo.webp' %}" style="height: 60px; width: 100px" alt="logo">
+            <img src="{% static 'homepage/img/logos/maxify-logo.png' %}" style="height: 30px; width: 100px" alt="logo">
         {% endblock %}
     </a>
     <div class="header-controls">
@@ -83,7 +81,7 @@
                                       style="color: {% block search_button_color %}black{% endblock %}"></i></button>
     </div>
     <ul class="main-menu">
-        <li><a href="{% url 'homepage:index' %}">{% trans "Home" %}</a></li>
+        <!-- <li><a href="{% url 'homepage:index' %}">{% trans "Home" %}</a></li>
 
         <li>
             <a href="#">{% trans "Meet" %} & {% trans "Contact" %}</a>
@@ -105,7 +103,7 @@
                 <li><a href="{% url 'homepage:privacy_policy' %}">{% trans "Privacy Policy" %}</a></li>
                 <li><a href="{% url 'homepage:terms_and_conditions' %}">{% trans "Terms & Conditions" %}</a></li>
             </ul>
-        </li>
+        </li> -->
 
         {% block login %}
             <li>
@@ -116,12 +114,12 @@
                 {% endif %}
                 <ul class="sub-menu">
                     {% if not request.user.is_authenticated %}
-                        <li><a href="{% url 'client:login' %}">{% trans "Sign In" %}</a></li>
-                        <li><a href="{% url 'client:register' %}">{% trans "Join Us" %}</a></li>
-                        <li><a href="{% url 'administration:login' %}">{% trans "Studio Admin" %}</a></li>
+                        <li><a href="{% url 'client:login' %}">{% trans "Login" %}</a></li>
+                        <li><a href="{% url 'client:register' %}">{% trans "Register" %}</a></li>
+                        <li><a href="{% url 'administration:login' %}">{% trans "Admin Login" %}</a></li>
                     {% else %}
                         {% if request.user.is_superuser %}
-                            <li><a href="{% url 'administration:index' %}">{% trans 'Studio Admin' %}</a></li>
+                            <li><a href="{% url 'administration:index' %}">{% trans 'Admin' %}</a></li>
                         {% else %}
                             <li><a href="{% url 'client:client_homepage' %}">{% trans 'My Dashboard' %}</a></li>
                         {% endif %}
@@ -130,7 +128,7 @@
                 </ul>
             </li>
         {% endblock %}
-        <li>
+        <!-- <li>
             <div class="language_fr ml-auto">
                 {% get_current_language as LANGUAGE_CODE %}
                 <form action="{% url 'set_language' %}" method="post">
@@ -148,7 +146,7 @@
                     </select>
                 </form>
             </div>
-        </li>
+        </li> -->
 
         <li class="search-mobile">
             <button class="search-btn"><i class="fa fa-search"></i></button>
@@ -172,11 +170,11 @@
                 {% block customfa %}
                     <div class="col-md-6 order-1 order-md-2">
                     <div class="footer-social-links">
-                        <a href="https://www.facebook.com/crueltouch" target="_blank"><i
+                        <a href="#" target="_blank"><i
                                 class="fa-brands fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/crueltouch_/" target="_blank"><i
+                        <a href="#" target="_blank"><i
                                 class="fa-brands fa-instagram"></i></a>
-                        <a href="https://vm.tiktok.com/ZM8quPJ9t/">
+                        <a href="#">
                             <i class="fa-brands fa-tiktok"></i>
                         </a>
                     </div>
@@ -184,10 +182,10 @@
                 </div>
                 <div class="col-md-6 order-2 order-md-1">
                     <div class="copyright">
-                        Copyright &copy;2019 - {% now "Y" %}
-                        {% trans 'All rights reserved' %} | Tchiiz Studio | {% trans 'Made with' %}
-                        <i class="fa fa-heart-o" aria-hidden="true">{% trans 'Love' %}</i> {% trans "by" %} <a
-                            href="https://adamspierredavid.com" target="_blank">APD</a>
+                        Copyright &copy;
+                        {% trans 'All rights reserved' %} | Maxify Global Limited| {% now "Y" %}
+                         <!--<i class="fa fa-heart-o" aria-hidden="true">{% trans 'Love' %}</i> {% trans "by" %} <a
+                            href="https://adamspierredavid.com" target="_blank">APD</a> -->
                     </div>
                 </div>
             </div>

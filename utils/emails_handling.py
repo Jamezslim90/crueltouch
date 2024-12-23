@@ -61,7 +61,7 @@ def send_email_(subject, html_message, recipient_list, invoice_number, invoice_f
     email = EmailMessage(
         subject=subject,
         body=html_message,
-        from_email="TCHIIZ Studio",
+        from_email="Maxify Global",
         to=recipient_list
     )
     email.content_subtype = 'html'  # HTML content

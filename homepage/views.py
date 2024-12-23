@@ -78,20 +78,21 @@ def get_robot_txt(request):
 
 
 def services_offered(request):
-    page_title = _("Services | TCHIIZ")
-    page_description = _("Services offered by Tchiiz studio Photography")
+    page_title = _("Services | Maxify")
+    page_description = _("Services offered by Maxify Global")
     all_services = Service.objects.all()
-    wedding_services = all_services.filter(name__icontains='wedding')
-    portrait_services = all_services.filter(name__icontains='portrait')
-    # rest of category that isn't wedding and portrait
-    product_services = all_services.filter(name__icontains='product')
-    event_services = all_services.filter(name__icontains='event')
+    # mobile_services = all_services.filter(name__icontains='Website')
+    # web_services = all_services.filter(name__contains='Website')
+    # # rest of category that isn't wedding and portrait
+    # saas_services = all_services.filter(name__icontains='SaaS')
+    # mvp_services = all_services.filter(name__icontains='MVP')
     context = {
         'page_title': page_title,
         'page_description': page_description,
-        'wedding_service': wedding_services,
-        'portrait_service': portrait_services,
-        'product_service': product_services,
-        'event_service': event_services,
+        # 'mobile_services': mobile_services,
+        # 'web_services': web_services,
+        # 'saas_services': saas_services,
+        # 'mvp_services': mvp_services,
+        "all_services": all_services
     }
     return render(request, 'homepage/services_offered.html', context=context)

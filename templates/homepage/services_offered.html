@@ -13,24 +13,42 @@
 {% block body %}
     <div class="main-container">
         <h1 class="page-title">{% trans "Select and Schedule Your Appointment" %}</h1>
-        <div class="page-menu">
-            <div class="category-button portrait-service" onclick="showService('portrait-service')">
-                {% translate 'Portrait/Birthday' %}
+        <!-- <div class="page-menu">
+            <div class="category-button portrait-service" onclick="showService('web-service')">
+                 {% translate 'Portrait/Birthday' %}{% translate 'Website Design' %}
             </div>
-            <div class="category-button wedding-service" onclick="showService('wedding-service')">
-                {% translate 'Wedding' %}
+            <div class="category-button wedding-service" onclick="showService('mobile-service')">
+                 {% translate 'Wedding' %}{% translate 'Mobile Apps' %}
             </div>
-            <div class="category-button product-service" onclick="showService('product-service')">
-                {% translate 'Product Photography' %}
+            <div class="category-button product-service" onclick="showService('SaaS-service')">
+                {% translate 'Product Photography' %}{% translate 'SaaS Apps' %}
             </div>
-            <div class="category-button event-service" onclick="showService('event-service')">
-                {% translate 'Events' %}
+            <div class="category-button event-service" onclick="showService('mvp-service')">
+               {% translate 'Events' %}{% translate 'MVP Developement' %}
             </div>
-        </div>
+        </div> -->
         <div class="page-body">
             <div class="category-container">
-                <div class="wedding-service service-list" id="wedding-service">
-                    {% for service in wedding_service %}
+                <div class="wedding-service service-list" id="web-service">
+                    {% for service in all_services %}
+                        <div class="page-item">
+                            <div class="item-picture">
+                                <img src="{{ service.get_image_url }}" alt="{{ service.name }}" loading="lazy">
+                            </div>
+                            <div class="item-description">
+                                <h3 class="item-name">{{ service.name }}</h3>
+                                <p class="description-paragraph">{{ service.description|safe }}</p>
+                                <hr>
+                                <p>{{ service.get_duration }}</p>
+                                <p>{{ service.get_price_text }}</p>
+                                <a href="{% url 'appointment:appointment_request' service_id=service.id %}"
+                                   class="btn btn-primary">{% translate 'Book Now' %}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- <div class="portrait-service service-list" id="mobile-service">
+                    {% for service in mobile_service %}
                         <div class="page-item">
                             <div class="item-picture">
                                 <img src="{{ service.get_image_url }}" alt="{{ service.name }}" loading="lazy">
@@ -46,9 +64,9 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-                <div class="portrait-service service-list" id="portrait-service">
-                    {% for service in portrait_service %}
+                </div> -->
+                <!-- <div class="product-service service-list" id="SaaS-service">
+                    {% for service in saas_service %}
                         <div class="page-item">
                             <div class="item-picture">
                                 <img src="{{ service.get_image_url }}" alt="{{ service.name }}" loading="lazy">
@@ -64,9 +82,9 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-                <div class="product-service service-list" id="product-service">
-                    {% for service in product_service %}
+                </div> -->
+                <!-- <div class="event-service service-list" id="mvp-service">
+                    {% for service in mvp_service %}
                         <div class="page-item">
                             <div class="item-picture">
                                 <img src="{{ service.get_image_url }}" alt="{{ service.name }}" loading="lazy">
@@ -82,25 +100,7 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-                <div class="event-service service-list" id="event-service">
-                    {% for service in event_service %}
-                        <div class="page-item">
-                            <div class="item-picture">
-                                <img src="{{ service.get_image_url }}" alt="{{ service.name }}" loading="lazy">
-                            </div>
-                            <div class="item-description">
-                                <h2 class="item-name">{{ service.name }}</h2>
-                                <p class="description-paragraph">{{ service.description|safe }}</p>
-                                <hr>
-                                <p>{{ service.get_duration }}</p>
-                                <p>{{ service.get_price_text }}</p>
-                                <a href="{% url 'appointment:appointment_request' service_id=service.id %}"
-                                   class="btn btn-dark">{% translate 'Book Now' %}</a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -138,6 +138,6 @@
         }
 
         // On load show portrait-service by default
-        showService('portrait-service');
+        showService('web-service');
     </script>
 {% endblock %}
