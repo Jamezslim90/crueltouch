@@ -117,23 +117,23 @@ WSGI_APPLICATION = 'crueltouch.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
-#   'default': {
-#     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'central contractors ltd',
-#     'USER': 'jamezslim90',
-#     'PASSWORD': 'zmgHh7aNwQk9',
-#     'HOST': 'ep-cold-leaf-25567838.us-west-2.aws.neon.tech',
-#     'PORT': '5432',
-#   }
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'maxify-appointments',
+    'USER': 'jamezslim90',
+    'PASSWORD': 'zmgHh7aNwQk9',
+    'HOST': 'ep-cold-leaf-25567838.us-west-2.aws.neon.tech',
+    'PORT': '5432',
+  }
+}
 
 
 # Password validation
@@ -209,7 +209,7 @@ CACHES = {
 ADMINS = [
     ('Adams', ADMIN_EMAIL),
 ]
-if not DEBUG:s
+if not DEBUG:
     ADMINS.append(('Roos', OTHER_ADMIN_EMAIL))
 
 MANAGERS = [
