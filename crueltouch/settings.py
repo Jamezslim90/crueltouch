@@ -20,8 +20,8 @@ from django.conf import locale
 from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
-allowed_hosts_str = os.getenv('LIST_OF_ALLOWED_HOSTS', default="")
-
+# allowed_hosts_str = os.getenv('LIST_OF_ALLOWED_HOSTS', default="")
+ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1","maxify-appointments.onrender.com"]
 debug_value = os.getenv('DEBUG_VALUE')
 secret_key_value = os.getenv('SECRET_KEY_VALUE')
 
