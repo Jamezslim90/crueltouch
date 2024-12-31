@@ -22,7 +22,6 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
-from endesive import pdf as endesive_pdf
 from xhtml2pdf import pisa
 
 from administration.forms import InvoiceAttachmentFormset, InvoiceForm, InvoiceServiceFormset, UserChangePasswordForm
@@ -35,6 +34,12 @@ from portfolio.models import Album as AlbumPortfolio, Photo as PhotoPortfolio
 from static_pages_and_forms.models import ContactForm
 from utils.crueltouch_utils import c_print, check_user_login, email_check, is_ajax, send_client_email, \
     work_with_file_photos
+
+try:
+    from endesive import pdf as endesive_pdf
+    HAS_ENDESIVE = True
+except ImportError:
+    HAS_ENDESIVE = False
 
 
 def delete_all_book_me():
@@ -935,8 +940,11 @@ def generate_and_process_invoice(request, invoice_number):
         # Generate the PDF
         pdf_path = generate_invoice_pdf(request, invoice_number)
         
-        # For now, we'll skip the signing process
-        # signed_pdf_path = sign_pdf(invoice_number)
+        if HAS_ENDESIVE:
+            # Only sign if endesive is available
+            signed_pdf_path = sign_pdf(invoice_number)
+            if signed_pdf_path != pdf_path:
+                os.remove(pdf_path)  # Clean up the original if we created a signed version
         
         # Update invoice status
         invoice = Invoice.objects.get(invoice_number=invoice_number)
@@ -1017,6 +1025,11 @@ def generate_invoice_pdf(request, invoice_number):
 
 
 def sign_pdf(invoice_number):
+    if not HAS_ENDESIVE:
+        # If endesive is not available, just return the generated PDF path
+        pdf_obj = Invoice.objects.get(invoice_number=invoice_number)
+        return f"media/invoices/{pdf_obj.get_name()}_generated.pdf"
+
     pdf_obj = Invoice.objects.get(invoice_number=invoice_number)
     pdf_path = f"media/invoices/{pdf_obj.get_name()}_generated.pdf"
 
