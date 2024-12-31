@@ -5,7 +5,15 @@ set -o errexit
 # Show commands being executed
 set -x
 
-pip install -r requirements.txt
+# Clean up virtual environment
+echo "Cleaning up virtual environment..."
+rm -rf .venv
+python -m venv .venv
+source .venv/bin/activate
+
+# Install requirements
+echo "Installing requirements..."
+pip install --no-cache-dir -r requirements.txt
 
 # Clean up existing static files
 rm -rf staticfiles/*
@@ -37,11 +45,7 @@ done
 echo "Directory structure before migrations:"
 ls -la */migrations/
 
-# First, create initial migration for client app
-echo "Creating initial migration for client app..."
-python manage.py makemigrations client --empty --name initial --verbosity 3
-
-# Then create migrations for all apps
+# Create all migrations at once
 echo "Creating migrations for all apps..."
 python manage.py makemigrations --verbosity 3
 
