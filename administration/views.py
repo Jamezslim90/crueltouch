@@ -928,26 +928,24 @@ def update_invoice_status(request, invoice_number):
 @login_required(login_url="/administration/login/")
 @user_passes_test(email_check, login_url='/administration/login/')
 def generate_and_process_invoice(request, invoice_number):
-    os.makedirs("media/invoices", exist_ok=True)
-    invoice = Invoice.objects.get(invoice_number=invoice_number)
-
-    # Step 1: Generate Invoice PDF
-    pdf_path = generate_invoice_pdf(request, invoice.invoice_number)
-    # Step 2: Sign the PDF
-    signed_pdf_path = sign_pdf(invoice_number)
-    # Step 3: Secure the PDF
-    secure_pdf_path = f'media/invoices/{invoice.get_name()}.pdf'
-    secure_pdf(signed_pdf_path, secure_pdf_path, "owner_password", invoice)
-    # Cleanup: Remove temporary PDFs and serve the final secured PDF
-    os.remove(pdf_path)
-    os.remove(signed_pdf_path)
-
-    # Serve the final secured PDF
-    with open(secure_pdf_path, 'rb') as f:
-        pdf_content = f.read()
-    # response = HttpResponse(pdf_content, content_type='application/pdf')
-    # response['Content-Disposition'] = f'filename="{invoice.get_name()}.pdf"'
-    return redirect('administration:index')
+    """
+    Generate and process an invoice, including PDF generation and optional signing.
+    """
+    try:
+        # Generate the PDF
+        pdf_path = generate_invoice_pdf(request, invoice_number)
+        
+        # For now, we'll skip the signing process
+        # signed_pdf_path = sign_pdf(invoice_number)
+        
+        # Update invoice status
+        invoice = Invoice.objects.get(invoice_number=invoice_number)
+        invoice.status = Invoice.GENERATED
+        invoice.save()
+        
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
 
 
 def generate_invoice_pdf(request, invoice_number):
