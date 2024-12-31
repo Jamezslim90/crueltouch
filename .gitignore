@@ -1,49 +1,39 @@
 # pycache folders
-__pycache__
-client/__pycache__
-crueltouch/__pycache__
-homepage/__pycache__
-portfolio/__pycache__
-static_pages_and_forms/__pycache__
-administration/__pycache__
-appointments/__pycache__
-
-# migrations folders
-client/migrations
-homepage/migrations
-portfolio/migrations
-static_pages_and_forms/migrations
-administration/migrations
-appointments/migrations
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
 
 # DS_Store file
 .DS_Store
-client/.DS_Store
-crueltouch/.DS_Store
-homepage/.DS_Store
-portfolio/.DS_Store
-static_pages_and_forms/.DS_Store
-administration/.DS_Store
-appointments/.DS_Store
+*/.DS_Store
 
-# IDE & Environments
-.idea
+# Environment variables
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
-db.sqlite3
+# IDE files
+.idea/
+.vscode/
 
-.github
-media
+# Database
+*.sqlite3
 
+# Media files
+media/
 
-crueltouch/secrets.py
-crueltouch/secrets
-database_backup/*
-.cache
-django_q.services
+# Static files
+staticfiles/
+
+# Compiled Python files
+*.pyc
+
+# Local development settings
+local_settings.py
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Temporary files
+*.swp
+*~
