@@ -10,6 +10,11 @@ pip install -r requirements.txt
 # Clean up existing static files
 rm -rf staticfiles/*
 
+# Remove all existing migrations
+echo "Removing existing migrations..."
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc" -delete
+
 # Ensure migrations directories exist
 echo "Creating migrations directories..."
 mkdir -p client/migrations
@@ -28,15 +33,21 @@ for dir in */migrations/; do
     fi
 done
 
-# First, create all migrations with verbosity
-echo "Creating migrations..."
-python manage.py makemigrations client --verbosity 3
-python manage.py makemigrations administration --verbosity 3
-python manage.py makemigrations homepage --verbosity 3
-python manage.py makemigrations portfolio --verbosity 3
-python manage.py makemigrations static_pages_and_forms --verbosity 3
-python manage.py makemigrations appointment --verbosity 3
-python manage.py makemigrations payment --verbosity 3
+# Show directory structure before migrations
+echo "Directory structure before migrations:"
+ls -la */migrations/
+
+# First, create initial migration for client app
+echo "Creating initial migration for client app..."
+python manage.py makemigrations client --empty --name initial --verbosity 3
+
+# Then create migrations for all apps
+echo "Creating migrations for all apps..."
+python manage.py makemigrations --verbosity 3
+
+# Show directory structure after migrations
+echo "Directory structure after migrations:"
+ls -la */migrations/
 
 # Run collectstatic
 echo "Collecting static files..."
@@ -45,6 +56,10 @@ python manage.py collectstatic --no-input
 # Show current migration status
 echo "Current migration status:"
 python manage.py showmigrations
+
+# Try to run migrations with --run-syncdb first
+echo "Running initial syncdb..."
+python manage.py migrate --run-syncdb
 
 # Apply migrations with verbosity
 echo "Applying migrations..."
