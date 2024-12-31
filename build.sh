@@ -7,51 +7,42 @@ pip install -r requirements.txt
 # Clean up existing static files
 rm -rf staticfiles/*
 
+# Ensure migrations directories exist
+echo "Creating migrations directories..."
+mkdir -p client/migrations
+mkdir -p administration/migrations
+mkdir -p homepage/migrations
+mkdir -p portfolio/migrations
+mkdir -p static_pages_and_forms/migrations
+mkdir -p appointment/migrations
+mkdir -p payment/migrations
+
+# Create __init__.py in migrations directories
+touch client/migrations/__init__.py
+touch administration/migrations/__init__.py
+touch homepage/migrations/__init__.py
+touch portfolio/migrations/__init__.py
+touch static_pages_and_forms/migrations/__init__.py
+touch appointment/migrations/__init__.py
+touch payment/migrations/__init__.py
+
 # First, create all migrations
 echo "Creating migrations..."
-python manage.py makemigrations client  # Custom user model first
-python manage.py makemigrations administration
-python manage.py makemigrations homepage
-python manage.py makemigrations portfolio
-python manage.py makemigrations static_pages_and_forms
-python manage.py makemigrations appointment
-python manage.py makemigrations payment
+python manage.py makemigrations client --no-input
+python manage.py makemigrations administration --no-input
+python manage.py makemigrations homepage --no-input
+python manage.py makemigrations portfolio --no-input
+python manage.py makemigrations static_pages_and_forms --no-input
+python manage.py makemigrations appointment --no-input
+python manage.py makemigrations payment --no-input
 
 # Run collectstatic
 echo "Collecting static files..."
 python manage.py collectstatic --no-input
 
-# Apply migrations in specific order
+# Apply migrations
 echo "Applying migrations..."
+python manage.py migrate --no-input
 
-# First, apply contenttypes and auth
-python manage.py migrate contenttypes --fake-initial
-python manage.py migrate auth --fake-initial
-
-# Apply client app migrations one by one to handle dependencies
-for migration in $(ls client/migrations/0*.py | sort -V); do
-    migration_name=$(basename "$migration" .py)
-    echo "Applying client migration: $migration_name"
-    python manage.py migrate client "${migration_name#*_}" --fake-initial
-done
-
-# Apply remaining core apps
-python manage.py migrate admin --fake-initial
-python manage.py migrate sessions --fake-initial
-python manage.py migrate sites --fake-initial
-
-# Apply third-party apps
-python manage.py migrate captcha --fake-initial
-python manage.py migrate django_q --fake-initial
-
-# Apply remaining apps
-python manage.py migrate administration --fake-initial
-python manage.py migrate homepage --fake-initial
-python manage.py migrate portfolio --fake-initial
-python manage.py migrate static_pages_and_forms --fake-initial
-python manage.py migrate appointment --fake-initial
-python manage.py migrate payment --fake-initial
-
-# Final migration to catch any remaining dependencies
-echo "Running final migration check..."
-python manage.py migrate --fake-initial
+# Show migration status
+python manage.py showmigrations
