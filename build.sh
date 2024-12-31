@@ -5,9 +5,10 @@ set -o errexit
 # Show commands being executed
 set -x
 
-
-# Install requirements
-echo "Installing requirements..."
+# Force reinstall Django and dependencies
+echo "Reinstalling Django and dependencies..."
+pip uninstall -y django django-js-asset django-simple-history django-simple-captcha
+pip install --no-cache-dir Django==4.2.8
 pip install --no-cache-dir -r requirements.txt
 
 # Clean up existing static files
@@ -40,8 +41,16 @@ done
 echo "Directory structure before migrations:"
 ls -la */migrations/
 
-# Create all migrations at once
-echo "Creating migrations for all apps..."
+# Create migrations for auth and contenttypes first
+echo "Creating migrations for core apps..."
+python manage.py makemigrations auth contenttypes --verbosity 3
+
+# Create migrations for client app
+echo "Creating migrations for client app..."
+python manage.py makemigrations client --verbosity 3
+
+# Create remaining migrations
+echo "Creating remaining migrations..."
 python manage.py makemigrations --verbosity 3
 
 # Show directory structure after migrations
@@ -56,12 +65,11 @@ python manage.py collectstatic --no-input
 echo "Current migration status:"
 python manage.py showmigrations
 
-# Try to run migrations with --run-syncdb first
-echo "Running initial syncdb..."
-python manage.py migrate --run-syncdb
-
-# Apply migrations with verbosity
+# Apply migrations in order
 echo "Applying migrations..."
+python manage.py migrate auth --verbosity 3
+python manage.py migrate contenttypes --verbosity 3
+python manage.py migrate client --verbosity 3
 python manage.py migrate --verbosity 3
 
 # Show final migration status
