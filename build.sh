@@ -5,11 +5,6 @@ set -o errexit
 # Show commands being executed
 set -x
 
-# Clean up virtual environment
-echo "Cleaning up virtual environment..."
-rm -rf .venv
-python -m venv .venv
-source .venv/bin/activate
 
 # Install requirements
 echo "Installing requirements..."
