@@ -209,7 +209,7 @@ CACHES = {
 ADMINS = [
     ('Adams', ADMIN_EMAIL),
 ]
-if not DEBUG:s
+if not DEBUG:
     ADMINS.append(('Roos', OTHER_ADMIN_EMAIL))
 
 MANAGERS = [

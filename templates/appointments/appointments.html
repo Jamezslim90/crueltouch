@@ -47,7 +47,7 @@
                     <form method="post" action="{% url 'appointment:appointment_request_submit' %}"
                     class="appointment-form">
                         {% csrf_token %}
-                        <div>{% trans "Service Details" %}</div>
+                        <div class="title">{% trans "Service Details" %}</div>
                         <hr class="second-part">
                         <div class="service-description-content">
                             <p class="item-name">{{ service.name }}</p>
