@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: crueltouch
+    env: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn crueltouch.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: DATABASE_URL
+        value: postgres://jamezslim90:zmgHh7aNwQk9@ep-cold-leaf-25567838.us-west-2.aws.neon.tech/maxify-appointments
+      - key: DEBUG_VALUE
+        value: False
+      - key: SECRET_KEY_VALUE
+        sync: false
+      - key: ALLOWED_HOSTS
+        value: "maxify-appointments.onrender.com,localhost,127.0.0.1"
